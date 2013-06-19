@@ -16,10 +16,10 @@ DBD += Hameg_8123.dbd
 Hameg_8123_DBD += base.dbd
 
 # Include dbd files from all support applications:
-#Hameg_8123_DBD += xxx.dbd
+Hameg_8123_DBD += lvDCOM.dbd
 
 # Add all the support libraries needed by this IOC
-#Hameg_8123_LIBS += xxx
+Hameg_8123_LIBS += lvDCOMSupport asyn autosave
 
 # Hameg_8123_registerRecordDeviceDriver.cpp derives from Hameg_8123.dbd
 Hameg_8123_SRCS += Hameg_8123_registerRecordDeviceDriver.cpp
@@ -33,6 +33,8 @@ Hameg_8123_SRCS_vxWorks += -nil-
 
 # Finally link to the EPICS Base libraries
 Hameg_8123_LIBS += $(EPICS_BASE_IOC_LIBS)
+
+Hameg_8123_SYS_LIBS_WIN32 += msxml2
 
 #===========================
 
