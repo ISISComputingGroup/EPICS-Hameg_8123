@@ -2,6 +2,9 @@
 
 < envPaths
 
+epicsEnvSet "IOCNAME" "$(P=$(MYPVPREFIX))HAMEG_8123"
+epicsEnvSet "IOCSTATS_DB" "$(DEVIOCSTATS)/db/iocAdminSoft.db"
+
 cd ${TOP}
 
 ## Register all support components
@@ -21,10 +24,9 @@ Hameg_8123_registerRecordDeviceDriver pdbbase
 
 lvDCOMConfigure("frontpanel", "frontpanel", "$(TOP)/Hameg_8123App/protocol/Hameg_8123.xml", "ndxchipir", 6, "", "spudulike", "reliablebeam")
 
-dbLoadRecords("$(TOP)/db/Hameg_8123.db","P=HAMEG8123_$(FPNUM):")
+dbLoadRecords("$(TOP)/db/Hameg_8123.db","P=$(IOCNAME):")
+dbLoadRecords("$(IOCSTATS_DB)","IOC=$(IOCNAME)")
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit
 
-## Start any sequence programs
-#seq sncxxx,"user=faa59Host"
