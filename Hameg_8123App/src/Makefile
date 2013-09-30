@@ -19,7 +19,7 @@ Hameg_8123_DBD += base.dbd
 Hameg_8123_DBD += lvDCOM.dbd devIocStats.dbd
 
 # Add all the support libraries needed by this IOC
-Hameg_8123_LIBS += lvDCOMSupport asyn autosave devIocStats
+Hameg_8123_LIBS += lvDCOM asyn autosave devIocStats
 
 # Hameg_8123_registerRecordDeviceDriver.cpp derives from Hameg_8123.dbd
 Hameg_8123_SRCS += Hameg_8123_registerRecordDeviceDriver.cpp
