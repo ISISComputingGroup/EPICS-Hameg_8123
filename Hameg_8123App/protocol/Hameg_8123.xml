@@ -65,7 +65,7 @@
           <item name="Total Event Counting A" value="11"/>
         </items>
         <read method="GCV" target="Function"/>
-        <set method="SCV" extint="true" target="Function"/>
+        <set method="SCV" extint="true" target="Function" post_button="Set Function"/>
       </param>
       <param name="Impedance_A" type="ring">
         <items>
@@ -301,13 +301,6 @@
         <read method="GCV" target="Function Ind"/>
         <set method="SCV" extint="true" target="Function Ind"/>
       </param>
-      <param name="Set_Function" type="boolean">
-        <items>
-          <item name="Set" value="0"/>
-        </items>
-        <read method="GCV" target="Set Function"/>
-        <set method="SCV" extint="true" target="Set Function"/>
-      </param>
       <param name="Gated" type="boolean">
         <items>
           <item name="Gated" value="0"/>
@@ -331,14 +324,7 @@
       </param>
       <param name="Pulses_per_Revolution" type="float64">
         <read method="GCV" target="Pulses per Revolution"/>
-        <set method="SCV" extint="true" target="Pulses per Revolution"/>
-      </param>
-      <param name="Set_Pulses_per_Revolution" type="boolean">
-        <items>
-          <item name="Set" value="0"/>
-        </items>
-        <read method="GCV" target="Set Pulses per Revolution"/>
-        <set method="SCV" extint="true" target="Set Pulses per Revolution"/>
+        <set method="SCV" extint="true" target="Pulses per Revolution" post_button="Set Pulses per Revolution"/>
       </param>
       <param name="Trigger" type="boolean">
         <items>
