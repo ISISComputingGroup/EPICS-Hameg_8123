@@ -24,7 +24,7 @@ Hameg_8123_registerRecordDeviceDriver pdbbase
 
 lvDCOMConfigure("frontpanel", "frontpanel", "$(TOP)/Hameg_8123App/protocol/Hameg_8123.xml", "ndxchipir", 6, "", "spudulike", "reliablebeam")
 
-dbLoadRecords("$(TOP)/db/Hameg_8123.db","P=$(IOCNAME):")
+dbLoadRecords("$(TOP)/db/Hameg_8123.db","P=$(IOCNAME)")
 dbLoadRecords("$(IOCSTATS_DB)","IOC=$(IOCNAME)")
 
 cd ${TOP}/iocBoot/${IOC}
