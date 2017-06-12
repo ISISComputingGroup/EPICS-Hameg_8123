@@ -13,7 +13,7 @@ PROD_IOC = Hameg_8123
 DBD += Hameg_8123.dbd
 
 # Hameg_8123.dbd will be made up from these files:
-Hameg_8123_DBD += base.dbd
+Hameg_8123_DBD += base.dbd asyn.dbd
 
 # Include dbd files from all support applications:
 Hameg_8123_DBD += lvDCOM.dbd devIocStats.dbd
