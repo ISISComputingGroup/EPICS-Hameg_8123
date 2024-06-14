@@ -1,0 +1,108 @@
+
+
+Terminator = CR LF;
+
+getIDN {
+    out "IDN";
+    in "%39c";
+}
+
+startCounting {
+    out "STR";
+
+}
+
+stopCounting {
+    out "STP";
+}
+
+getCounts {
+    out "XMT?"
+    # Responds with value, units
+    in "%d, %(\$1)39c "
+}
+
+resetCounts {
+    out "RES"
+}
+
+setArmed {
+    out "AR%d";
+}
+
+setGated {
+    out "GT%d";
+}
+
+setHold {
+    out "DH%d";
+}
+
+setOffset {
+    out "OF%d";
+}
+
+setTrigger {
+    out "TRG"
+}
+
+getGateTime {
+    out "SMT?";
+    in "%d";
+}
+
+setGateTime {
+    out "SMT%d";
+}
+
+setPulsePerRev {
+    out "NPC%d";
+}
+
+getFunction {
+    out "FN?";
+    in "%s";
+}
+
+setFunction { 
+    #todo check this works - can we just send str val of mbbo?
+    out "%s";
+}
+
+# These take a channel (A/B)
+getTriggerLevel {
+    out "LV\$1?";
+    in "%d";
+}
+
+getChannelSettings {
+    out "M\$1"
+    #TODO 
+    in ""
+
+}
+
+setTriggerLevel {
+    out "LV\$1%f"
+}
+
+setImpedance {
+    out "O\$1%{L|H}"
+}
+
+setCoupling {
+    # eg DCA, ACB 
+    out "%s\$1";
+}
+
+setLowPassFilter {
+    "F\$1%d"
+}
+
+setAttenuator {
+
+}
+
+setSlope {
+    out "S\$1%{0|1}";
+}
