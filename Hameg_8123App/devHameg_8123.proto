@@ -9,7 +9,6 @@ getIDN {
 
 startCounting {
     out "STR";
-
 }
 
 stopCounting {
@@ -75,12 +74,20 @@ getTriggerLevel {
     in "%d";
 }
 
-getChannelSettings {
+getChannelASettings {
     out "M\$1"
     #TODO 
-    in ""
-
+    # \$1 is $(P):CHAN_X
+    in "Z: CPL: FL: ATT: SLP"
 }
+
+getImpedance {
+    out "M\$1"
+    in "Z:%2d"
+    # Ignore the rest, we don't care if just getting impedance
+    ExtraInput = Ignore
+}
+
 
 setTriggerLevel {
     out "LV\$1%f"
@@ -100,7 +107,8 @@ setLowPassFilter {
 }
 
 setAttenuator {
-
+    #TODO check this - manual seems weird for this one as RBV is different
+    "A\$1%{0|1|2}"
 }
 
 setSlope {
