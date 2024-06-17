@@ -76,9 +76,9 @@ getTriggerLevel {
 
 getChannelASettings {
     out "M\$1"
-    #TODO 
+    #TODO check attenuator is definitely correct
     # \$1 is $(P):CHAN_X
-    in "Z: CPL: FL: ATT: SLP"
+    in "Z:%#(\$1:IMPEDANCE){50=0|1 M=1} CPL:%(\$1:COUPLING)2c FL:%(\$1:LOWPASSFILTER)b ATT:%#(\$1:ATTENUATOR){1=0|2=10|3=100} SLP%#(\$1:SLOPE){+=0|-=1}"
 }
 
 getImpedance {
