@@ -16,13 +16,13 @@ stopCounting {
 }
 
 getCounts {
-    out "XMT?"
+    out "XMT?";
     # Responds with value, units
-    in "%d, %(\$1)39c "
+    in "%d, %(\$1)39c ";
 }
 
 resetCounts {
-    out "RES"
+    out "RES";
 }
 
 setArmed {
@@ -42,7 +42,7 @@ setOffset {
 }
 
 setTrigger {
-    out "TRG"
+    out "TRG";
 }
 
 getGateTime {
@@ -75,26 +75,26 @@ getTriggerLevel {
 }
 
 getChannelASettings {
-    out "M\$1"
+    out "M\$1";
     #TODO check attenuator is definitely correct
     # \$1 is $(P):CHAN_X
-    in "Z:%#(\$1:IMPEDANCE){50=0|1 M=1} CPL:%(\$1:COUPLING)2c FL:%(\$1:LOWPASSFILTER)b ATT:%#(\$1:ATTENUATOR){1=0|2=10|3=100} SLP%#(\$1:SLOPE){+=0|-=1}"
+    in "Z:%#(\$1:IMPEDANCE){50=0|1 M=1} CPL:%(\$1:COUPLING)2c FL:%(\$1:LOWPASSFILTER)b ATT:%#(\$1:ATTENUATOR){1=0|2=10|3=100} SLP%#(\$1:SLOPE){+=0|-=1}";
 }
 
 getImpedance {
-    out "M\$1"
-    in "Z:%2d"
+    out "M\$1";
+    in "Z:%2d";
     # Ignore the rest, we don't care if just getting impedance
-    ExtraInput = Ignore
+    Extrainput = ignore;
 }
 
 
 setTriggerLevel {
-    out "LV\$1%f"
+    out "LV\$1%f";
 }
 
 setImpedance {
-    out "O\$1%{L|H}"
+    out "O\$1%{L|H}";
 }
 
 setCoupling {
@@ -103,12 +103,12 @@ setCoupling {
 }
 
 setLowPassFilter {
-    "F\$1%d"
+    out "F\$1%d";
 }
 
 setAttenuator {
     #TODO check this - manual seems weird for this one as RBV is different
-    "A\$1%{0|1|2}"
+    out "A\$1%{0|1|2}";
 }
 
 setSlope {
