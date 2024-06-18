@@ -21,6 +21,8 @@ class SimulatedHameg8123(StateMachineDevice):
         self.started = False
         self.stopped = False 
         self.reset = False
+        self.triggered = True
+        self.pulses_per_rev = 100
 
 
     def _get_state_handlers(self):
