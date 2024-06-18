@@ -18,6 +18,9 @@ class SimulatedHameg8123(StateMachineDevice):
             "A": HamegChannel("A"),
             "B": HamegChannel("B")
         }
+        self.started = False
+        self.stopped = False 
+        self.reset = False
 
 
     def _get_state_handlers(self):
@@ -35,6 +38,15 @@ class SimulatedHameg8123(StateMachineDevice):
     def get_idn(self) -> str:
         return self.idn
     
+    def get_func(self) -> str: 
+        return self.func
+    
+    def get_gate_time(self) -> int:
+        return self.gate_time
+    
+    def get_results(self) -> str:
+        return f"{self.count}, {self.count_unit}"
+    
 
 class HamegChannel():
     coupling = "AC"
@@ -42,6 +54,7 @@ class HamegChannel():
     attenuation = "1"
     slope = True
     impedance = 50
+    trigger_level = 1
 
     def __init__(self, chan: str):
         self.chan = chan

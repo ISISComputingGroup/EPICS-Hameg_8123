@@ -16,6 +16,16 @@ class Hameg8123StreamInterface(StreamInterface):
         # Commands that we expect via serial during normal operation
         self.commands = {
             CmdBuilder(self.get_idn).escape("IDN").eos().build(),
+            CmdBuilder(self.get_results).escape("XMT").eos().build(),
+            CmdBuilder(self.get_func).escape("FN?").eos().build(),
+            CmdBuilder(self.get_gate_time).escape("SMT?").eos().build(),
+            
+            CmdBuilder(self.set_gate_time).escape("SMT").int().eos().build(),
+            
+            CmdBuilder(self.set_trigger_level).escape("LV").arg("A|B").int().eos().build(),
+            CmdBuilder(self.get_trigger_level).escape("LV").arg("A|B").escape("?").eos().build(),
+
+
         }
 
         self.device: SimulatedHameg8123 = self.device
@@ -23,6 +33,24 @@ class Hameg8123StreamInterface(StreamInterface):
     
     def get_idn(self):
         return self.device.get_idn()
+    
+    def get_func(self):
+        return self.device.get_func()
+    
+    def get_gate_time(self):
+        return self.device.get_gate_time()
+
+    def get_results(self):
+        return self.device.get_results()
+
+    def set_gate_time(self, gate_time):
+        self.device.gate_time = gate_time
+
+    def set_trigger_level(self, channel, trigger_level):
+        self.device.channels[channel].trigger_level = trigger_level
+    
+    def get_trigger_level(self, channel):
+        return self.device.channels[channel].trigger_level
 
 
     def handle_error(self, request, error):

@@ -407,7 +407,7 @@ record(bi, "$(P)CHAN_B:IMPEDANCE")
 {
     field(SCAN, "1 second")
     field(DTYP, "stream")
-    field(INP,  "@devHameg_8123.proto getImpedance(B) $(PORT)")
+    field(INP,  "@devHameg_8123.proto getChannelSettings($(P)CHAN_B) $(PORT)")
     field(ZNAM, "50")
     field(ONAM, "1M")
     field(SIML, "$(P)SIM")
@@ -430,9 +430,7 @@ alias("$(P)CHAN_B:IMPEDANCE", "$(P)CHAN_B:IMPEDANCE:SP:RBV")
 
 record(bi, "$(P)CHAN_B:COUPLING") 
 {
-    field(SCAN, "1 second")
-    field(DTYP, "stream")
-    field(INP,  "@devHameg_8123.proto getCoupling(B) $(PORT)")
+    #Updated from $(P)CHAN_B:IMPEDANCE
     field(ZNAM, "AC")
     field(ONAM, "DC")
     field(SIML, "$(P)SIM")
@@ -455,9 +453,7 @@ alias("$(P)CHAN_B:COUPLING", "$(P)CHAN_B:COUPLING:SP:RBV")
 
 record(bi, "$(P)CHAN_B:LOWPASSFILTER") 
 {
-    field(SCAN, "1 second")
-    field(DTYP, "stream")
-    field(INP,  "@devHameg_8123.proto getLowPassFilter(B) $(PORT)")
+    #Updated from $(P)CHAN_B:IMPEDANCE
     field(ZNAM, "OFF")
     field(ONAM, "ON")
     field(SIML, "$(P)SIM")
@@ -480,9 +476,7 @@ alias("$(P)CHAN_B:LOWPASSFILTER", "$(P)CHAN_B:LOWPASSFILTER:SP:RBV")
 
 record(mbbi, "$(P)CHAN_B:ATTENUATOR") 
 {
-    field(SCAN, "1 second")
-    field(DTYP, "stream")
-    field(INP,  "@devHameg_8123.proto getAttenuator(B) $(PORT)")
+    #Updated from $(P)CHAN_B:IMPEDANCE
     field(ZRST, "0")
     field(ONST, "10")
     field(TWST, "100")
@@ -507,9 +501,7 @@ alias("$(P)CHAN_B:ATTENUATOR", "$(P)CHAN_B:ATTENUATOR:SP:RBV")
 
 record(bi, "$(P)CHAN_B:SLOPE") 
 {
-    field(SCAN, "1 second")
-    field(DTYP, "stream")
-    field(INP,  "@devHameg_8123.proto getSlope(B) $(PORT)")
+    #Updated from $(P)CHAN_B:IMPEDANCE
     field(ZNAM, "+")
     field(ONAM, "-")
     field(SIML, "$(P)SIM")
