@@ -68,10 +68,6 @@ setFunction {
     out "%s";
 }
 
-setPulsePerRev {
-    out "NPC%d";
-}
-
 # These take a channel (A/B)
 getTriggerLevel {
     out "LV\$1?";

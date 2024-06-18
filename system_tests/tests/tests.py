@@ -34,7 +34,8 @@ class Hameg8123Tests(unittest.TestCase):
         self.ca.assert_that_pv_is("IDN", "HAMEG HM8123")
 
     @parameterized.expand([
-        ("GATETIME", "GATETIME:SP", 301)
+        ("GATETIME", "GATETIME:SP", 301),
+        ("FUNCTION", "FUNCTION:SP", "WDA")
     ])
     def test_gate_time_on_device_matches_rbv_after_sp_set(self, rbv,sp,expected):
         self.ca.set_pv_value(sp, expected)
@@ -51,14 +52,14 @@ class Hameg8123Tests(unittest.TestCase):
         self.ca.assert_that_pv_is(pv, expected)
 
     @parameterized.expand([
-        ("START_COUNTING:SP", "started"),
-        ("STOP_COUNTING:SP", "stopped"),
-        ("RESET_COUNTS:SP", "reset"),
-        ("TRIGGER:SP", "triggered"),
-        ("PULSES_PER_REV:SP", "pulses_per_rev")
+        ("START_COUNTING:SP", "started", True),
+        ("STOP_COUNTING:SP", "stopped", True),
+        ("RESET_COUNTS:SP", "reset", True),
+        ("TRIGGER:SP", "triggered", True),
+        ("PULSES_PER_REV:SP", "pulses_per_rev", 2000)
     ])
-    def test_set_only_controls_affect_device(self, sp_pv, lewis_var):
-        self.ca.set_pv_value(sp_pv, 1)
-        self._lewis.assert_that_emulator_value_is(lewis_var, str(True))
+    def test_set_only_controls_affect_device(self, sp_pv, lewis_var, expected):
+        self.ca.set_pv_value(sp_pv, expected)
+        self._lewis.assert_that_emulator_value_is(lewis_var, str(expected))
 
     
