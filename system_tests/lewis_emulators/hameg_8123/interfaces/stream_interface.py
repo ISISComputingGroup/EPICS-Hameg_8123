@@ -31,6 +31,9 @@ class Hameg8123StreamInterface(StreamInterface):
             CmdBuilder(self.set_trigger_level).escape("LV").arg("A|B").int().eos().build(),
             CmdBuilder(self.get_trigger_level).escape("LV").arg("A|B").escape("?").eos().build(),
 
+            CmdBuilder(self.set_func).arg("FRA|FRB|FRC|PRA|WDA|RAB|DTA|TI1|TIA|PHA|RPM|TOT").eos().build(),
+
+
 
         }
 
@@ -41,7 +44,10 @@ class Hameg8123StreamInterface(StreamInterface):
         return self.device.get_idn()
     
     def get_func(self):
-        return self.device.get_func()
+        return self.device.func
+
+    def set_func(self, func):
+        self.device.func = func
     
     def get_gate_time(self):
         return self.device.get_gate_time()

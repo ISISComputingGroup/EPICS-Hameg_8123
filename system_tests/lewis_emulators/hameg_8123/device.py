@@ -40,9 +40,6 @@ class SimulatedHameg8123(StateMachineDevice):
     def get_idn(self) -> str:
         return self.idn
     
-    def get_func(self) -> str: 
-        return self.func
-    
     def get_gate_time(self) -> int:
         return self.gate_time
     
