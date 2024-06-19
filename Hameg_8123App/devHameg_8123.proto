@@ -64,7 +64,6 @@ getFunction {
 }
 
 setFunction { 
-    #todo check this works - can we just send str val of mbbo?
     out "%s";
 }
 
