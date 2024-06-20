@@ -20,7 +20,6 @@ class Hameg8123StreamInterface(StreamInterface):
             CmdBuilder(self.get_func).escape("FN?").eos().build(),
             CmdBuilder(self.get_gate_time).escape("SMT?").eos().build(),
             CmdBuilder(self.set_gate_time).escape("SMT").int().eos().build(),
-
             CmdBuilder(self.set_pulses_per_rev).escape("NPC").int().eos().build(),
 
             CmdBuilder(self.trigger).escape("TRG").eos().build(),
@@ -33,12 +32,40 @@ class Hameg8123StreamInterface(StreamInterface):
 
             CmdBuilder(self.set_func).arg("FRA|FRB|FRC|PRA|WDA|RAB|DTA|TI1|TIA|PHA|RPM|TOT").eos().build(),
 
+            CmdBuilder(self.get_channel_settings).escape("M").arg("A|B").escape("?").eos().build(),
+
+            CmdBuilder(self.set_atten).escape("A").arg("A|B").arg("0|1|2").eos().build(),
+            CmdBuilder(self.set_slope).escape("S").arg("A|B").arg("0|1").eos().build(),
+            CmdBuilder(self.set_low_pass).escape("F").arg("A|B").arg("0|1").eos().build(),
+            CmdBuilder(self.set_coupling).arg("AC|DC").arg("A|B").eos().build(),
+            CmdBuilder(self.set_impedance).escape("O").arg("A|B").arg("H|L").eos().build(),
 
 
         }
 
         self.device: SimulatedHameg8123 = self.device
 
+    
+    def set_atten(self, channel, atten):
+        self.device.channels[channel].attenuation = atten
+
+    def set_slope(self, channel, slope):
+        slope != slope # slope positive is 0, negative is 1, flip for ease of use
+        self.device.channels[channel].slope = bool(slope)
+
+    def set_low_pass(self, channel, lowpass):
+        self.device.channels[channel].lowpass = bool(lowpass)
+
+    def set_coupling(self, coupling, channel):
+        self.device.channels[channel].coupling = coupling
+
+    def set_impedance(self, channel, impedance):
+        self.device.channels[channel].impedance = impedance
+
+    
+    def get_channel_settings(self, channel):
+        channel_obj = self.device.channels[channel]
+        return f"Z:{str(channel_obj.impedance)} CPL:{str(channel_obj.coupling)} FL:{'ON' if channel_obj.lowpass else 'OFF'} ATT:{str(int(channel_obj.attenuation)+1)} SLP{'+' if channel_obj.slope else '-'}"
     
     def get_idn(self):
         return self.device.get_idn()

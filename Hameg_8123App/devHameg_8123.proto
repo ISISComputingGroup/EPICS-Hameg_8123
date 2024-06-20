@@ -74,18 +74,10 @@ getTriggerLevel {
 }
 
 getChannelSettings {
-    out "M\$1";
-    # \$1 is $(P):CHAN_X
-    in "Z:%(\$1:IMPEDANCE)#{50=0|1 M=1} CPL:%(\$1:COUPLING)2c FL:%(\$1:LOWPASSFILTER)b ATT:%(\$1:ATTENUATOR)#{1=0|2=10|3=100} SLP%(\$1:SLOPE)#{+=0|-=1}";
+    out "M\$1?";
+    # \$2 is $(P):CHAN_X
+    in "Z:%(\$2:IMPEDANCE)#{50=0|1 M=1} CPL:%(\$2:COUPLING)2c FL:%(\$2:LOWPASSFILTER)b ATT:%(\$2:ATTENUATOR)#{1=0|2=10|3=100} SLP%(\$2:SLOPE)#{+=0|-=1}";
 }
-
-getImpedance {
-    out "M\$1";
-    in "Z:%2d";
-    # Ignore the rest, we don't care if just getting impedance
-    Extrainput = ignore;
-}
-
 
 setTriggerLevel {
     out "LV\$1%f";

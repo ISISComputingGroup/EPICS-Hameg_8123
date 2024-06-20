@@ -63,3 +63,4 @@ class Hameg8123Tests(unittest.TestCase):
         self._lewis.assert_that_emulator_value_is(lewis_var, str(expected))
 
     
+    # def test_set_channel_commands_status_is_correct(self):
