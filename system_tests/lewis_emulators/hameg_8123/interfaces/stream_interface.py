@@ -5,9 +5,10 @@ from lewis.utils.replies import conditional_reply
 
 from ..device import SimulatedHameg8123
 
+
 @has_log
 class Hameg8123StreamInterface(StreamInterface):
-    
+
     in_terminator = "\r"
     out_terminator = "\r"
 
@@ -21,36 +22,61 @@ class Hameg8123StreamInterface(StreamInterface):
             CmdBuilder(self.get_gate_time).escape("SMT?").eos().build(),
             CmdBuilder(self.set_gate_time).escape("SMT").int().eos().build(),
             CmdBuilder(self.set_pulses_per_rev).escape("NPC").int().eos().build(),
-
             CmdBuilder(self.trigger).escape("TRG").eos().build(),
             CmdBuilder(self.start).escape("STR").eos().build(),
             CmdBuilder(self.stop).escape("STP").eos().build(),
-            CmdBuilder(self.reset).escape("RES").eos().build(),            
-            
-            CmdBuilder(self.set_trigger_level).escape("LV").arg("A|B").int().eos().build(),
-            CmdBuilder(self.get_trigger_level).escape("LV").arg("A|B").escape("?").eos().build(),
-
-            CmdBuilder(self.set_func).arg("FRA|FRB|FRC|PRA|WDA|RAB|DTA|TI1|TIA|PHA|RPM|TOT").eos().build(),
-
-            CmdBuilder(self.get_channel_settings).escape("M").arg("A|B").escape("?").eos().build(),
-
-            CmdBuilder(self.set_atten).escape("A").arg("A|B").arg("0|1|2").eos().build(),
+            CmdBuilder(self.reset).escape("RES").eos().build(),
+            CmdBuilder(self.set_trigger_level)
+            .escape("LV")
+            .arg("A|B")
+            .int()
+            .eos()
+            .build(),
+            CmdBuilder(self.get_trigger_level)
+            .escape("LV")
+            .arg("A|B")
+            .escape("?")
+            .eos()
+            .build(),
+            CmdBuilder(self.set_func)
+            .arg("FRA|FRB|FRC|PRA|WDA|RAB|DTA|TI1|TIA|PHA|RPM|TOT")
+            .eos()
+            .build(),
+            CmdBuilder(self.get_channel_settings)
+            .escape("M")
+            .arg("A|B")
+            .escape("?")
+            .eos()
+            .build(),
+            CmdBuilder(self.set_atten)
+            .escape("A")
+            .arg("A|B")
+            .arg("0|1|2")
+            .eos()
+            .build(),
             CmdBuilder(self.set_slope).escape("S").arg("A|B").arg("0|1").eos().build(),
-            CmdBuilder(self.set_low_pass).escape("F").arg("A|B").arg("0|1").eos().build(),
+            CmdBuilder(self.set_low_pass)
+            .escape("F")
+            .arg("A|B")
+            .arg("0|1")
+            .eos()
+            .build(),
             CmdBuilder(self.set_coupling).arg("AC|DC").arg("A|B").eos().build(),
-            CmdBuilder(self.set_impedance).escape("O").arg("A|B").arg("H|L").eos().build(),
-
-
+            CmdBuilder(self.set_impedance)
+            .escape("O")
+            .arg("A|B")
+            .arg("H|L")
+            .eos()
+            .build(),
         }
 
         self.device: SimulatedHameg8123 = self.device
 
-    
     def set_atten(self, channel, atten):
         self.device.channels[channel].attenuation = atten
 
     def set_slope(self, channel, slope):
-        slope != slope # slope positive is 0, negative is 1, flip for ease of use
+        slope != slope  # slope positive is 0, negative is 1, flip for ease of use
         self.device.channels[channel].slope = bool(slope)
 
     def set_low_pass(self, channel, lowpass):
@@ -62,20 +88,19 @@ class Hameg8123StreamInterface(StreamInterface):
     def set_impedance(self, channel, impedance):
         self.device.channels[channel].impedance = impedance
 
-    
     def get_channel_settings(self, channel):
         channel_obj = self.device.channels[channel]
         return f"Z:{str(channel_obj.impedance)} CPL:{str(channel_obj.coupling)} FL:{'ON' if channel_obj.lowpass else 'OFF'} ATT:{str(int(channel_obj.attenuation)+1)} SLP{'+' if channel_obj.slope else '-'}"
-    
+
     def get_idn(self):
         return self.device.get_idn()
-    
+
     def get_func(self):
         return self.device.func
 
     def set_func(self, func):
         self.device.func = func
-    
+
     def get_gate_time(self):
         return self.device.get_gate_time()
 
@@ -90,13 +115,13 @@ class Hameg8123StreamInterface(StreamInterface):
 
     def set_trigger_level(self, channel, trigger_level):
         self.device.channels[channel].trigger_level = trigger_level
-    
+
     def get_trigger_level(self, channel):
         return self.device.channels[channel].trigger_level
-    
+
     def reset(self):
         self.device.reset = True
-    
+
     def start(self):
         self.device.started = True
 
@@ -115,4 +140,6 @@ class Hameg8123StreamInterface(StreamInterface):
             error: problem
 
         """
-        self.log.error("An error occurred at request " + repr(request) + ": " + repr(error))
+        self.log.error(
+            "An error occurred at request " + repr(request) + ": " + repr(error)
+        )
