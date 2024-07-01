@@ -66,5 +66,25 @@ class Hameg8123Tests(unittest.TestCase):
         self.ca.set_pv_value(sp_pv, expected)
         self._lewis.assert_that_emulator_value_is(lewis_var, str(expected))
 
-    def test_set_channel_commands_status_is_correct(self):
-        pass
+    @parameterized.expand(
+        [("A"), ("B")]
+    )
+    def test_set_channel_commands_status_is_correct(self, chan):
+        expected_impedance = "50"
+        expected_coupling = "AC"
+        expected_low_pass = "ON"
+        expected_attenuation = "10"
+        expected_slope = "+"
+
+        self.ca.set_pv_value(f"CHAN_{chan}:IMPEDANCE:SP", expected_impedance)
+        self.ca.set_pv_value(f"CHAN_{chan}:COUPLING:SP", expected_coupling)
+        self.ca.set_pv_value(f"CHAN_{chan}:LOWPASSFILTER:SP", expected_low_pass)
+        self.ca.set_pv_value(f"CHAN_{chan}:ATTENUATOR:SP", expected_attenuation)
+        self.ca.set_pv_value(f"CHAN_{chan}:SLOPE:SP", expected_slope)
+
+        self.ca.assert_that_pv_is(f"CHAN_{chan}:IMPEDANCE", expected_impedance)
+        self.ca.assert_that_pv_is(f"CHAN_{chan}:COUPLING", expected_coupling)
+        self.ca.assert_that_pv_is(f"CHAN_{chan}:LOWPASSFILTER", expected_low_pass)
+        self.ca.assert_that_pv_is(f"CHAN_{chan}:ATTENUATOR", expected_attenuation)
+        self.ca.assert_that_pv_is(f"CHAN_{chan}:SLOPE", expected_slope)
+        
