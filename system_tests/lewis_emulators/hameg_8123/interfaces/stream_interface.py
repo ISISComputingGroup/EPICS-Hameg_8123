@@ -90,7 +90,7 @@ class Hameg8123StreamInterface(StreamInterface):
 
     def get_channel_settings(self, channel):
         channel_obj = self.device.channels[channel]
-        return f"Z:{str(channel_obj.impedance)} CPL:{str(channel_obj.coupling)} FL:{'ON' if channel_obj.lowpass else 'OFF'} ATT:{str(int(channel_obj.attenuation)+1)} SLP{'+' if channel_obj.slope else '-'}"
+        return f"Z:{str('50' if channel_obj.impedance == 'L' else '1 M')} CPL:{str(channel_obj.coupling)} FL:{'ON' if channel_obj.lowpass else 'OFF'} ATT:{str(int(channel_obj.attenuation)+1)} SLP{'+' if channel_obj.slope else '-'}"
 
     def get_idn(self):
         return self.device.get_idn()
