@@ -37,6 +37,7 @@ record(bo, "$(P)START_COUNTING:SP")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:START_COUNTING:SP")
     field(SDIS, "$(P)DISABLE")
+    field(FLNK, "$(P)_START_COUNTING.PROC")
 }
 
 alias("$(P)START_COUNTING:SP", "$(P)START_COUNTING")
@@ -50,9 +51,29 @@ record(bo, "$(P)STOP_COUNTING:SP")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:STOP_COUNTING:SP")
     field(SDIS, "$(P)DISABLE")
+    field(FLNK, "$(P)_STOP_COUNTING.PROC")
+
 }
 
 alias("$(P)STOP_COUNTING:SP", "$(P)STOP_COUNTING")
+
+record(dfanout, "$(P)_START_COUNTING")
+{
+    field(DOL, "1")
+    field(OUTA, "$(P)COUNTING PP")
+}
+
+record(dfanout, "$(P)_STOP_COUNTING")
+{
+    field(DOL, "0")
+    field(OUTA, "$(P)COUNTING PP")
+}
+
+
+record(bi, "$(P)COUNTING")
+{
+    field(VAL, "0")
+}
 
 record(ai, "$(P)COUNTS") 
 {
