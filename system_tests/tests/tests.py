@@ -71,10 +71,10 @@ class Hameg8123Tests(unittest.TestCase):
     )
     def test_set_channel_commands_status_is_correct(self, chan):
         expected_impedance = "50"
-        expected_coupling = "AC"
+        expected_coupling = "DC"
         expected_low_pass = "ON"
-        expected_attenuation = "10"
-        expected_slope = "+"
+        expected_attenuation = "0"
+        expected_slope = "-"
 
         self.ca.set_pv_value(f"CHAN_{chan}:IMPEDANCE:SP", expected_impedance)
         self.ca.set_pv_value(f"CHAN_{chan}:COUPLING:SP", expected_coupling)

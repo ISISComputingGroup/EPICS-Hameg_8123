@@ -51,8 +51,8 @@ class HamegChannel():
     coupling = "AC"
     lowpass = True
     attenuation = "1"
-    slope = True
-    impedance = 50
+    slope = "+"
+    impedance = "L"
     trigger_level = 1
 
     def __init__(self, chan: str):

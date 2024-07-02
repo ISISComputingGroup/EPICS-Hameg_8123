@@ -70,13 +70,13 @@ setFunction {
 # These take a channel (A/B)
 getTriggerLevel {
     out "LV\$1?";
-    in "%d";
+    in "%f";
 }
 
 getChannelSettings {
     out "M\$1?";
     # \$2 is $(P):CHAN_X
-    in "Z:%(\$2:IMPEDANCE)#{50=0|1 M=1} CPL:%(\$2:COUPLING)2c FL:%(\$2:LOWPASSFILTER)#{OFF=0|ON=1} ATT:%(\$2:ATTENUATOR)#{1=0|2=10|3=100} SLP%(\$2:SLOPE)#{+=0|-=1}";
+    in "Z:%#{50=0|1 M=1} CPL:%(\$2:COUPLING)2c FL:%(\$2:LOWPASSFILTER)#{OFF=0|ON=1} ATT:%(\$2:ATTENUATOR)#{1=0|2=10|3=100} SLP%(\$2:SLOPE)#{+=0|-=1}";
 }
 
 setTriggerLevel {
@@ -97,7 +97,6 @@ setLowPassFilter {
 }
 
 setAttenuator {
-    #TODO check this - manual seems weird for this one as RBV is different
     out "A\$1%{0|1|2}";
 }
 

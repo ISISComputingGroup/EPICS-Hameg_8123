@@ -266,7 +266,19 @@ record(bi, "$(P)CHAN_A:IMPEDANCE")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:CHAN_A:IMPEDANCE")
     field(SDIS, "$(P)DISABLE")
+    field(FLNK, "$(P)CHAN_A:_PROCESS_RBVS")
 }
+
+
+record(fanout, "$(P)CHAN_A:_PROCESS_RBVS")
+{
+    field(SELM, "All")
+    field(LNK1, "$(P)CHAN_A:COUPLING")
+    field(LNK2, "$(P)CHAN_A:LOWPASSFILTER")
+    field(LNK3, "$(P)CHAN_A:ATTENUATOR")
+    field(LNK4, "$(P)CHAN_A:SLOPE")
+}
+
 
 record(bo, "$(P)CHAN_A:IMPEDANCE:SP") 
 {
@@ -413,6 +425,16 @@ record(bi, "$(P)CHAN_B:IMPEDANCE")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:CHAN_B:IMPEDANCE")
     field(SDIS, "$(P)DISABLE")
+    field(FLNK, "$(P)CHAN_B:_PROCESS_RBVS")
+}
+
+record(fanout, "$(P)CHAN_B:_PROCESS_RBVS")
+{
+    field(SELM, "All")
+    field(LNK1, "$(P)CHAN_B:COUPLING")
+    field(LNK2, "$(P)CHAN_B:LOWPASSFILTER")
+    field(LNK3, "$(P)CHAN_B:ATTENUATOR")
+    field(LNK4, "$(P)CHAN_B:SLOPE")
 }
 
 record(bo, "$(P)CHAN_B:IMPEDANCE:SP") 

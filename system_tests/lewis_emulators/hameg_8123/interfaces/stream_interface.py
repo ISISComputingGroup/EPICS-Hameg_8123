@@ -29,7 +29,7 @@ class Hameg8123StreamInterface(StreamInterface):
             CmdBuilder(self.set_trigger_level)
             .escape("LV")
             .arg("A|B")
-            .int()
+            .float()
             .eos()
             .build(),
             CmdBuilder(self.get_trigger_level)
@@ -76,8 +76,7 @@ class Hameg8123StreamInterface(StreamInterface):
         self.device.channels[channel].attenuation = atten
 
     def set_slope(self, channel, slope):
-        slope != slope  # slope positive is 0, negative is 1, flip for ease of use
-        self.device.channels[channel].slope = bool(slope)
+        self.device.channels[channel].slope = "+" if slope == "0" else "-"
 
     def set_low_pass(self, channel, lowpass):
         self.device.channels[channel].lowpass = bool(lowpass)
@@ -86,11 +85,18 @@ class Hameg8123StreamInterface(StreamInterface):
         self.device.channels[channel].coupling = coupling
 
     def set_impedance(self, channel, impedance):
+        if channel == "A":
+            print(f"setting impedance to {impedance}")
         self.device.channels[channel].impedance = impedance
 
     def get_channel_settings(self, channel):
         channel_obj = self.device.channels[channel]
-        return f"Z:{str('50' if channel_obj.impedance == 'L' else '1 M')} CPL:{str(channel_obj.coupling)} FL:{'ON' if channel_obj.lowpass else 'OFF'} ATT:{str(int(channel_obj.attenuation)+1)} SLP{'+' if channel_obj.slope else '-'}"
+        imp = '50' if channel_obj.impedance == "L" else '1 M'
+        lowpass = 'ON' if channel_obj.lowpass else 'OFF'
+        att = str(int(channel_obj.attenuation)+1)
+        if channel == "A":
+            print(f"att is {channel_obj.attenuation} therfore {att}")
+        return f"Z:{imp} CPL:{str(channel_obj.coupling)} FL:{lowpass} ATT:{att} SLP{channel_obj.slope}"
 
     def get_idn(self):
         return self.device.get_idn()
