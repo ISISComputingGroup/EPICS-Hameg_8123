@@ -18,7 +18,7 @@ stopCounting {
 getCounts {
     out "XMT";
     # Responds with value, units
-    in "%d, %(\$1)39c";
+    in "%d, %(\$1)16c";
 }
 
 resetCounts {

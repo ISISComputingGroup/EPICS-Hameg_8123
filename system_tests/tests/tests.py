@@ -3,7 +3,7 @@ import unittest
 from utils.channel_access import ChannelAccess
 from utils.ioc_launcher import get_default_ioc_dir
 from utils.test_modes import TestModes
-from utils.testing import get_running_lewis_and_ioc
+from utils.testing import get_running_lewis_and_ioc, skip_if_recsim
 from parameterized import parameterized
 
 DEVICE_PREFIX = "HAMEG8123_01"
@@ -19,7 +19,7 @@ IOCS = [
 ]
 
 
-TEST_MODES = [TestModes.DEVSIM]
+TEST_MODES = [TestModes.DEVSIM, TestModes.RECSIM]
 
 
 class Hameg8123Tests(unittest.TestCase):
@@ -30,7 +30,9 @@ class Hameg8123Tests(unittest.TestCase):
     def setUp(self):
         self._lewis, self._ioc = get_running_lewis_and_ioc("hameg_8123", DEVICE_PREFIX)
         self.ca = ChannelAccess(device_prefix=DEVICE_PREFIX, default_wait_time=0.0)
+        self._lewis.backdoor_run_function_on_device("reset")
 
+    @skip_if_recsim("Lewis backdoor not available in recsim")
     def test_get_idn(self):
         self.ca.assert_that_pv_is("IDN", "HAMEG HM8123")
 
@@ -48,6 +50,7 @@ class Hameg8123Tests(unittest.TestCase):
             ("COUNTS.EGU", "count_unit", "S"),
         ]
     )
+    @skip_if_recsim("Lewis backdoor not available in recsim")
     def test_read_only_var_on_device_matches_rbv(self, pv, lewis_var, expected):
         self._lewis.backdoor_set_on_device(lewis_var, expected)
         self.ca.assert_that_pv_is(pv, expected)
@@ -61,6 +64,7 @@ class Hameg8123Tests(unittest.TestCase):
             ("PULSES_PER_REV:SP", "pulses_per_rev", 2000),
         ]
     )
+    @skip_if_recsim("Lewis backdoor not available in recsim")
     def test_set_only_controls_affect_device(self, sp_pv, lewis_var, expected):
         self.ca.set_pv_value(sp_pv, expected)
         self._lewis.assert_that_emulator_value_is(lewis_var, str(expected))
