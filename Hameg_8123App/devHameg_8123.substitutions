@@ -1,0 +1,12 @@
+file devHameg_8123_common.template {
+
+  pattern {PORT, P, DISABLE, RECSIM}
+  {"\$(PORT)", "\$(P)", "\$(DISABLE=0)", "\$(RECSIM=0)"}
+}
+
+file devHameg_8123_channel.template {
+
+  pattern {PORT, P, CHANNEL}
+  {"\$(PORT)", "\$(P)", "A"}
+  {"\$(PORT)", "\$(P)", "B"}
+}

@@ -1,0 +1,358 @@
+record(bo, "$(P)SIM") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(VAL, "$(RECSIM=0)")
+}
+
+record(bo, "$(P)DISABLE") 
+{
+  field(DESC, "Disable comms")
+  field(PINI, "YES")
+  field(VAL, "$(DISABLE=0)")
+  field(OMSL, "supervisory")
+  field(ZNAM, "COMMS ENABLED")
+  field(ONAM, "COMMS DISABLED")
+}
+
+record(stringin, "$(P)IDN")
+{
+    field(DESC, "SCPI identification string")
+    field(DTYP, "stream")
+    field(INP,  "@devHameg_8123.proto getIDN $(PORT)")
+    field(PINI, "YES")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:IDN")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)START_COUNTING:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto startCounting $(PORT)")
+    field(ZNAM, "TRUE")
+    field(ONAM, "OK")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:START_COUNTING:SP")
+    field(SDIS, "$(P)DISABLE")
+    field(FLNK, "$(P)_START_COUNTING.PROC")
+}
+
+alias("$(P)START_COUNTING:SP", "$(P)START_COUNTING")
+
+record(bo, "$(P)STOP_COUNTING:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto stopCounting $(PORT)")
+    field(ZNAM, "TRUE")
+    field(ONAM, "OK")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:STOP_COUNTING:SP")
+    field(SDIS, "$(P)DISABLE")
+    field(FLNK, "$(P)_STOP_COUNTING.PROC")
+
+}
+
+alias("$(P)STOP_COUNTING:SP", "$(P)STOP_COUNTING")
+
+record(dfanout, "$(P)_START_COUNTING")
+{
+    field(DOL, "1")
+    field(OUTA, "$(P)COUNTING PP")
+}
+
+record(dfanout, "$(P)_STOP_COUNTING")
+{
+    field(DOL, "0")
+    field(OUTA, "$(P)COUNTING PP")
+}
+
+
+record(bi, "$(P)COUNTING")
+{
+    field(VAL, "0")
+}
+
+record(ai, "$(P)COUNTS") 
+{
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP,  "@devHameg_8123.proto getCounts($(P)COUNTS.EGU) $(PORT)")
+    field(PREC, "3")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:COUNTS")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+    field(EGU, "")
+    field(DESC, "The total number of counts")
+}
+
+record(bo, "$(P)RESET_COUNTS:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto resetCounts $(PORT)")
+    field(ZNAM, "TRUE")
+    field(ONAM, "OK")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:RESET_COUNTS:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)RESET_COUNTS:SP", "$(P)RESET_COUNTS")
+
+record(bo, "$(P)ARMED:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setArmed $(PORT)")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ARMED:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)ARMED:SP", "$(P)ARMED")
+
+record(bo, "$(P)GATED:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setGated $(PORT)")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:GATED:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)GATED:SP", "$(P)GATED")
+
+record(bo, "$(P)HOLD:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setHold $(PORT)")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HOLD:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)HOLD:SP", "$(P)HOLD")
+
+record(bo, "$(P)OFFSET:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setOffset $(PORT)")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:OFFSET:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)OFFSET:SP", "$(P)OFFSET")
+
+record(bo, "$(P)TRIGGER:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setTrigger $(PORT)")
+    field(ZNAM, "TRUE")
+    field(ONAM, "OK")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:TRIGGER:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)TRIGGER:SP", "$(P)TRIGGER")
+
+record(ai, "$(P)GATETIME") 
+{
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP,  "@devHameg_8123.proto getGateTime $(PORT)")
+    field(PREC, "5")
+    field(EGU,  "ms")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:GATETIME")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ao, "$(P)GATETIME:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setGateTime $(PORT)")
+    field(PREC, "5")
+    field(EGU, "ms") 
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:GATETIME:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)GATETIME", "$(P)GATETIME:SP:RBV")
+
+record(ao, "$(P)PULSES_PER_REV:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setPulsePerRev $(PORT)")
+    field(PREC, "5")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PULSES_PER_REV:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)PULSES_PER_REV:SP", "$(P)PULSES_PER_REV")
+
+record(mbbi, "$(P)FUNCTION") 
+{
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP,  "@devHameg_8123.proto getFunction $(PORT)")
+    field(ZRST, "FRA")
+    field(ONST, "FRB")
+    field(TWST, "FRC")
+    field(THST, "PRA")
+    field(FRST, "WDA")
+    field(FVST, "RAB")
+    field(SXST, "DTA")
+    field(SVST, "TI1")
+    field(EIST, "TIA")
+    field(NIST, "PHA")
+    field(TEST, "RPM")
+    field(ELST, "TOT")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FUNCTION")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(mbbo, "$(P)FUNCTION:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setFunction $(PORT)")
+    field(ZRST, "FRA")
+    field(ONST, "FRB")
+    field(TWST, "FRC")
+    field(THST, "PRA")
+    field(FRST, "WDA")
+    field(FVST, "RAB")
+    field(SXST, "DTA")
+    field(SVST, "TI1")
+    field(EIST, "TIA")
+    field(NIST, "PHA")
+    field(TEST, "RPM")
+    field(ELST, "TOT")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FUNCTION:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)FUNCTION", "$(P)FUNCTION:SP:RBV")
+
+
+### SIMULATION RECORDS ###
+
+record(bo, "$(P)SIM:HOLD")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:HOLD","$(P)SIM:HOLD:SP")
+
+record(bo, "$(P)SIM:START_COUNTING")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:START_COUNTING","$(P)SIM:START_COUNTING:SP")
+
+record(ai, "$(P)SIM:GATETIME")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:GATETIME","$(P)SIM:GATETIME:SP")
+
+alias("$(P)SIM:GATETIME","$(P)SIM:GATETIME:SP:RBV")
+
+record(bo, "$(P)SIM:STOP_COUNTING")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:STOP_COUNTING","$(P)SIM:STOP_COUNTING:SP")
+
+record(bo, "$(P)SIM:RESET_COUNTS")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:RESET_COUNTS","$(P)SIM:RESET_COUNTS:SP")
+
+record(bo, "$(P)SIM:GATED")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:GATED","$(P)SIM:GATED:SP")
+
+record(ai, "$(P)SIM:COUNTS")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+
+record(bo, "$(P)SIM:OFFSET")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:OFFSET","$(P)SIM:OFFSET:SP")
+
+record(bo, "$(P)SIM:TRIGGER")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:TRIGGER","$(P)SIM:TRIGGER:SP")
+
+record(mbbi, "$(P)SIM:FUNCTION")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:FUNCTION","$(P)SIM:FUNCTION:SP")
+
+alias("$(P)SIM:FUNCTION","$(P)SIM:FUNCTION:SP:RBV")
+
+record(ao, "$(P)SIM:PULSES_PER_REV")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:PULSES_PER_REV","$(P)SIM:PULSES_PER_REV:SP")
+
+record(stringin, "$(P)SIM:IDN")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(bo, "$(P)SIM:ARMED")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:ARMED","$(P)SIM:ARMED:SP")
