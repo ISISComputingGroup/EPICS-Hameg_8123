@@ -35,11 +35,10 @@ class Hameg8123Tests(unittest.TestCase):
         self.ca.assert_that_pv_is("IDN", "HAMEG HM8123")
 
     @parameterized.expand(
-        [("GATETIME", "GATETIME:SP", 301), ("FUNCTION", "FUNCTION:SP", "WDA")]
+        [("GATETIME", 301), ("FUNCTION", "WDA")]
     )
-    def test_gate_time_on_device_matches_rbv_after_sp_set(self, rbv, sp, expected):
-        self.ca.set_pv_value(sp, expected)
-        self.ca.assert_that_pv_is(rbv, expected)
+    def test_settable_var_on_device_matches_rbv_after_sp_set(self, rbv, expected):
+        self.ca.assert_setting_setpoint_sets_readback(expected, rbv)
 
     @parameterized.expand(
         [
@@ -49,7 +48,7 @@ class Hameg8123Tests(unittest.TestCase):
             ("COUNTS.EGU", "count_unit", "S"),
         ]
     )
-    def test_gate_time_on_device_matches_rbv(self, pv, lewis_var, expected):
+    def test_read_only_var_on_device_matches_rbv(self, pv, lewis_var, expected):
         self._lewis.backdoor_set_on_device(lewis_var, expected)
         self.ca.assert_that_pv_is(pv, expected)
 
