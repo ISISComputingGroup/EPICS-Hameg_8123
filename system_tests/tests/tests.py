@@ -24,7 +24,7 @@ TEST_MODES = [TestModes.DEVSIM]
 
 class Hameg8123Tests(unittest.TestCase):
     """
-    Tests for the _Device_ IOC.
+    Tests for the Hameg IOC.
     """
 
     def setUp(self):
