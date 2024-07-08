@@ -9,7 +9,7 @@ class SimulatedHameg8123(StateMachineDevice):
         Initialize all of the device's attributes.
         """
 
-        self.idn="HAMEG HM8123"
+        self.idn = "HAMEG HM8123"
         self.func = "FRA"
         self.gate_time = 400
         self.count = 0
@@ -24,6 +24,8 @@ class SimulatedHameg8123(StateMachineDevice):
         self.triggered = True
         self.pulses_per_rev = 100
 
+    def reinitialize(self):
+        self._initialize_data()
 
     def _get_state_handlers(self):
         return {

@@ -30,7 +30,7 @@ class Hameg8123Tests(unittest.TestCase):
     def setUp(self):
         self._lewis, self._ioc = get_running_lewis_and_ioc("hameg_8123", DEVICE_PREFIX)
         self.ca = ChannelAccess(device_prefix=DEVICE_PREFIX, default_wait_time=0.0)
-        self._lewis.backdoor_run_function_on_device("reset")
+        self._lewis.backdoor_run_function_on_device("reinitialize")
 
     @skip_if_recsim("Lewis backdoor not available in recsim")
     def test_get_idn(self):
