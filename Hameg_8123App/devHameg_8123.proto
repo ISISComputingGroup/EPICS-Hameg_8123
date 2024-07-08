@@ -1,0 +1,105 @@
+
+
+Terminator = CR;
+
+getIDN {
+    out "IDN";
+    in "%39c";
+}
+
+startCounting {
+    out "STR";
+}
+
+stopCounting {
+    out "STP";
+}
+
+getCounts {
+    out "XMT";
+    # Responds with value, units
+    in "%d, %(\$1)16c";
+}
+
+resetCounts {
+    out "RES";
+}
+
+setArmed {
+    out "AR%d";
+}
+
+setGated {
+    out "GT%d";
+}
+
+setHold {
+    out "DH%d";
+}
+
+setOffset {
+    out "OF%d";
+}
+
+setTrigger {
+    out "TRG";
+}
+
+getGateTime {
+    out "SMT?";
+    in "%d";
+}
+
+setGateTime {
+    out "SMT%d";
+}
+
+setPulsePerRev {
+    out "NPC%d";
+}
+
+getFunction {
+    out "FN?";
+    in "%s";
+}
+
+setFunction { 
+    out "%s";
+}
+
+# These take a channel (A/B)
+getTriggerLevel {
+    out "LV\$1?";
+    in "%f";
+}
+
+getChannelSettings {
+    out "M\$1?";
+    # \$2 is $(P):CHAN_X
+    in "Z:%#{50=0|1 M=1} CPL:%(\$2:COUPLING)2c FL:%(\$2:LOWPASSFILTER)#{OFF=0|ON=1} ATT:%(\$2:ATTENUATOR)#{1=0|2=10|3=100} SLP%(\$2:SLOPE)#{+=0|-=1}";
+}
+
+setTriggerLevel {
+    out "LV\$1%f";
+}
+
+setImpedance {
+    out "O\$1%{L|H}";
+}
+
+setCoupling {
+    # eg DCA, ACB 
+    out "%s\$1";
+}
+
+setLowPassFilter {
+    out "F\$1%d";
+}
+
+setAttenuator {
+    out "A\$1%{0|1|2}";
+}
+
+setSlope {
+    out "S\$1%{0|1}";
+}

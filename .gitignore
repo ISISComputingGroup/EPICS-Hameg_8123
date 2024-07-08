@@ -12,3 +12,6 @@ runIOC.bat
 runIOC.sh
 relPaths.sh
 .project
+/data
+test-reports/
+*.pyc

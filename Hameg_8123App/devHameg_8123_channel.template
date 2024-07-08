@@ -1,0 +1,222 @@
+
+
+### CHANNEL $(CHANNEL) ###
+
+record(ai, "$(P)CHAN_$(CHANNEL):TRIG_LVL") 
+{
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP,  "@devHameg_8123.proto getTriggerLevel($(CHANNEL)) $(PORT)")
+    field(PREC, "3")
+    field(EGU,  "V")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):TRIG_LVL")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ao, "$(P)CHAN_$(CHANNEL):TRIG_LVL:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setTriggerLevel($(CHANNEL)) $(PORT)")
+    field(PREC, "3")
+    field(EGU, "V") 
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):TRIG_LVL:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)CHAN_$(CHANNEL):TRIG_LVL", "$(P)CHAN_$(CHANNEL):TRIG_LVL:SP:RBV")
+
+#When this is called it updates the coupling, slope, attenuator and lowpass PVs at the same time!
+record(bi, "$(P)CHAN_$(CHANNEL):IMPEDANCE") 
+{
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP,  "@devHameg_8123.proto getChannelSettings($(CHANNEL),$(P)CHAN_$(CHANNEL)) $(PORT)")
+    field(ZNAM, "50")
+    field(ONAM, "1M")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):IMPEDANCE")
+    field(SDIS, "$(P)DISABLE")
+    field(FLNK, "$(P)CHAN_$(CHANNEL):_PROCESS_RBVS")
+}
+
+
+record(fanout, "$(P)CHAN_$(CHANNEL):_PROCESS_RBVS")
+{
+    field(SELM, "All")
+    field(LNK1, "$(P)CHAN_$(CHANNEL):COUPLING")
+    field(LNK2, "$(P)CHAN_$(CHANNEL):LOWPASSFILTER")
+    field(LNK3, "$(P)CHAN_$(CHANNEL):ATTENUATOR")
+    field(LNK4, "$(P)CHAN_$(CHANNEL):SLOPE")
+}
+
+
+record(bo, "$(P)CHAN_$(CHANNEL):IMPEDANCE:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setImpedance($(CHANNEL)) $(PORT)")
+    field(ZNAM, "50")
+    field(ONAM, "1M")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):IMPEDANCE:SP PP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)CHAN_$(CHANNEL):IMPEDANCE", "$(P)CHAN_$(CHANNEL):IMPEDANCE:SP:RBV")
+
+record(bi, "$(P)CHAN_$(CHANNEL):COUPLING") 
+{
+    #Updated from $(P)CHAN_$(CHANNEL):IMPEDANCE
+    field(ZNAM, "AC")
+    field(ONAM, "DC")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):COUPLING")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)CHAN_$(CHANNEL):COUPLING:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setCoupling($(CHANNEL)) $(PORT)")
+    field(ZNAM, "AC")
+    field(ONAM, "DC")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):COUPLING:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)CHAN_$(CHANNEL):COUPLING", "$(P)CHAN_$(CHANNEL):COUPLING:SP:RBV")
+
+record(bi, "$(P)CHAN_$(CHANNEL):LOWPASSFILTER") 
+{
+    #Updated from $(P)CHAN_$(CHANNEL):IMPEDANCE
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):LOWPASSFILTER")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)CHAN_$(CHANNEL):LOWPASSFILTER:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setLowPassFilter($(CHANNEL)) $(PORT)")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):LOWPASSFILTER:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)CHAN_$(CHANNEL):LOWPASSFILTER", "$(P)CHAN_$(CHANNEL):LOWPASSFILTER:SP:RBV")
+
+record(mbbi, "$(P)CHAN_$(CHANNEL):ATTENUATOR") 
+{
+    #Updated from $(P)CHAN_$(CHANNEL):IMPEDANCE
+    field(ZRST, "0")
+    field(ONST, "10")
+    field(TWST, "100")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):ATTENUATOR")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(mbbo, "$(P)CHAN_$(CHANNEL):ATTENUATOR:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setAttenuator($(CHANNEL)) $(PORT)")
+    field(ZRST, "0")
+    field(ONST, "10")
+    field(TWST, "100")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):ATTENUATOR:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)CHAN_$(CHANNEL):ATTENUATOR", "$(P)CHAN_$(CHANNEL):ATTENUATOR:SP:RBV")
+
+record(bi, "$(P)CHAN_$(CHANNEL):SLOPE") 
+{
+    #Updated from $(P)CHAN_$(CHANNEL):IMPEDANCE
+    field(ZNAM, "+")
+    field(ONAM, "-")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):SLOPE")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)CHAN_$(CHANNEL):SLOPE:SP") 
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devHameg_8123.proto setSlope($(CHANNEL)) $(PORT)")
+    field(ZNAM, "+")
+    field(ONAM, "-")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHAN_$(CHANNEL):SLOPE:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)CHAN_$(CHANNEL):SLOPE", "$(P)CHAN_$(CHANNEL):SLOPE:SP:RBV")
+
+
+record(bi, "$(P)SIM:CHAN_$(CHANNEL):LOWPASSFILTER")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:CHAN_$(CHANNEL):LOWPASSFILTER","$(P)SIM:CHAN_$(CHANNEL):LOWPASSFILTER:SP")
+
+alias("$(P)SIM:CHAN_$(CHANNEL):LOWPASSFILTER","$(P)SIM:CHAN_$(CHANNEL):LOWPASSFILTER:SP:RBV")
+
+
+record(bi, "$(P)SIM:CHAN_$(CHANNEL):SLOPE")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:CHAN_$(CHANNEL):SLOPE","$(P)SIM:CHAN_$(CHANNEL):SLOPE:SP")
+
+alias("$(P)SIM:CHAN_$(CHANNEL):SLOPE","$(P)SIM:CHAN_$(CHANNEL):SLOPE:SP:RBV")
+
+record(ai, "$(P)SIM:CHAN_$(CHANNEL):TRIG_LVL")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:CHAN_$(CHANNEL):TRIG_LVL","$(P)SIM:CHAN_$(CHANNEL):TRIG_LVL:SP")
+
+alias("$(P)SIM:CHAN_$(CHANNEL):TRIG_LVL","$(P)SIM:CHAN_$(CHANNEL):TRIG_LVL:SP:RBV")
+
+record(bi, "$(P)SIM:CHAN_$(CHANNEL):IMPEDANCE")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:CHAN_$(CHANNEL):IMPEDANCE","$(P)SIM:CHAN_$(CHANNEL):IMPEDANCE:SP")
+
+alias("$(P)SIM:CHAN_$(CHANNEL):IMPEDANCE","$(P)SIM:CHAN_$(CHANNEL):IMPEDANCE:SP:RBV")
+
+record(mbbi, "$(P)SIM:CHAN_$(CHANNEL):ATTENUATOR")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:CHAN_$(CHANNEL):ATTENUATOR","$(P)SIM:CHAN_$(CHANNEL):ATTENUATOR:SP")
+
+alias("$(P)SIM:CHAN_$(CHANNEL):ATTENUATOR","$(P)SIM:CHAN_$(CHANNEL):ATTENUATOR:SP:RBV")
+
+record(bi, "$(P)SIM:CHAN_$(CHANNEL):COUPLING")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+alias("$(P)SIM:CHAN_$(CHANNEL):COUPLING","$(P)SIM:CHAN_$(CHANNEL):COUPLING:SP")
+
+alias("$(P)SIM:CHAN_$(CHANNEL):COUPLING","$(P)SIM:CHAN_$(CHANNEL):COUPLING:SP:RBV")
