@@ -36,9 +36,7 @@ class Hameg8123Tests(unittest.TestCase):
     def test_get_idn(self):
         self.ca.assert_that_pv_is("IDN", "HAMEG HM8123")
 
-    @parameterized.expand(
-        [("GATETIME", 301), ("FUNCTION", "WDA")]
-    )
+    @parameterized.expand([("GATETIME", 301), ("FUNCTION", "WDA")])
     def test_settable_var_on_device_matches_rbv_after_sp_set(self, rbv, expected):
         self.ca.assert_setting_setpoint_sets_readback(expected, rbv)
 
@@ -69,9 +67,7 @@ class Hameg8123Tests(unittest.TestCase):
         self.ca.set_pv_value(sp_pv, expected)
         self._lewis.assert_that_emulator_value_is(lewis_var, str(expected))
 
-    @parameterized.expand(
-        [("A"), ("B")]
-    )
+    @parameterized.expand([("A"), ("B")])
     def test_set_channel_commands_status_is_correct(self, chan):
         expected_impedance = "50"
         expected_coupling = "DC"
@@ -90,4 +86,3 @@ class Hameg8123Tests(unittest.TestCase):
         self.ca.assert_that_pv_is(f"CHAN_{chan}:LOWPASSFILTER", expected_low_pass)
         self.ca.assert_that_pv_is(f"CHAN_{chan}:ATTENUATOR", expected_attenuation)
         self.ca.assert_that_pv_is(f"CHAN_{chan}:SLOPE", expected_slope)
-        
